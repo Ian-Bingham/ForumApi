@@ -4,13 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./src/server.js"
+    "start": "nodemon ./src/server.js",
+    "test": "mocha --require ./test/helper.js ./test/**/*.test.js --exit"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "eslint": "^5.16.0",
+    "mocha": "^6.1.4",
     "nodemon": "^1.19.1"
   },
   "dependencies": {
