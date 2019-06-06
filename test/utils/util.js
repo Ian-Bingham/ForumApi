@@ -28,11 +28,28 @@ const login = async (username, password) => {
 };
 
 const getUserById = async (id) => {
-  const getRes = await chai
+  const res = await chai
     .request(app)
     .get(`/user/${id}`);
 
-    return getRes;
+    return res;
 };
 
-module.exports = { createUser, login, getUserById };
+const getUserProfile = async (token) => {
+  const res = await chai
+    .request(app)
+    .get('/user/profile')
+    .set('Authorization', `Bearer ${token}`);
+
+    return res;
+};
+
+const getAllUsers = async () => {
+  const res = await chai
+    .request(app)
+    .get('/user/');
+
+    return res;
+};
+
+module.exports = { createUser, login, getUserById, getUserProfile, getAllUsers };
