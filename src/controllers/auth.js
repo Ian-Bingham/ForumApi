@@ -30,7 +30,7 @@ router.post('/sign-up', [
     return;
   }
 
-  const passwordHash = bcrypt.hashSync(password, 10);
+  const passwordHash = bcrypt.hashSync(password, 1);
 
   const user = new User({
     username,

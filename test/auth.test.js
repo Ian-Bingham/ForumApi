@@ -2,16 +2,11 @@ const chai = require('chai');
 const app = require('../src/server.js');
 const expect = chai.expect;
 
+const { createUser, login } = require('./utils/util');
+
 describe('Signup', () => {
   it('should error - password mistmatch', async () => {
-    const res = await chai
-    .request(app)
-    .post('/auth/sign-up')
-    .send({
-      'username': 'test',
-      'password': 'test',
-      'passwordConfirm': 'notTest'
-    });
+    const res = await createUser('test1', 'test1', 'notTest1');
 
     expect(res.status).to.eq(400);
     expect(res.body).to.have.property('error');
@@ -19,14 +14,7 @@ describe('Signup', () => {
   });
 
   it('should sign up w/ hidden passwordHash', async () => {
-    const res = await chai
-    .request(app)
-    .post('/auth/sign-up')
-    .send({
-      'username': 'test',
-      'password': 'test',
-      'passwordConfirm': 'test'
-    });
+    const res = await createUser('test1', 'test1', 'test1');
 
     expect(res.status).to.eq(200);
     expect(res.body).to.have.property('username');
@@ -34,14 +22,7 @@ describe('Signup', () => {
   });
 
   it('should not sign up - duplicate user', async () => {
-    const res = await chai
-    .request(app)
-    .post('/auth/sign-up')
-    .send({
-      'username': 'test',
-      'password': 'test',
-      'passwordConfirm': 'test'
-    });
+    const res = await createUser('test1', 'test1', 'test1');
 
     expect(res.status).to.eq(400);
     expect(res.body).to.have.property('error');
@@ -52,13 +33,7 @@ describe('Signup', () => {
 
 describe('Login', () => {
   it('should login', async () => {
-    const res = await chai
-    .request(app)
-    .post('/auth/login')
-    .send({
-      'username': 'test',
-      'password': 'test',
-    });
+    const res = await login('test1', 'test1');
 
     expect(res.status).to.eq(200);
   });

@@ -21,7 +21,7 @@ passport.use(new JwtStrategy({
 }));
 
 const verifyPassword = (password, passwordHash = '') => {
-  return bcrypt.compareSync(password, passwordHash, 10);
+  return bcrypt.compareSync(password, passwordHash, 1);
 };
 
 passport.use(new LocalStrategy({

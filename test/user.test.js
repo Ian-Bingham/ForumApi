@@ -2,29 +2,16 @@ const chai = require('chai');
 const app = require('../src/server.js');
 const expect = chai.expect;
 
-const signupNewUser = async () => {
-  const res = await chai
-    .request(app)
-    .post('/auth/sign-up')
-    .send({
-      'username': 'newUser',
-      'password': 'newUser',
-      'passwordConfirm': 'newUser'
-    });
-
-    return res.body;
-};
+const { createUser, getUserById } = require('./utils/util');
 
 describe('Get User', () => {
   it('should get single user', async () => {
-    const user = await signupNewUser();
+    const createRes = await createUser('test2', 'test2', 'test2');
 
-    const res = await chai
-    .request(app)
-    .get(`/user/${user._id}`);
+    const getRes = await getUserById(createRes.body._id);
 
-    expect(res.status).to.eq(200);
-    expect(res.body.username).to.eq('newUser');
-    expect(res.body).to.not.have.property('passwordHash');
+    expect(getRes.status).to.eq(200);
+    expect(getRes.body.username).to.eq('test2');
+    expect(getRes.body).to.not.have.property('passwordHash');
   });
 });
