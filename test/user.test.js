@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const { createUser, login, getUserById, getUserProfile, getAllUsers } = require('./utils/util');
 
 describe('User Controller Tests', () => {
+  // GET
   it('should not GetUserById: user dne', async () => {
     const getUserByIdRes = await getUserById(mongoose.Types.ObjectId());
 
@@ -43,8 +44,6 @@ describe('User Controller Tests', () => {
 
     expect(getAllUsersRes.status).to.eq(200);
     expect(getAllUsersRes.body).to.be.an('array');
-    expect(getAllUsersRes.body.length).to.eq(2);
-    expect(getAllUsersRes.body[0].username).to.eq('getUser1');
-    expect(getAllUsersRes.body[1].username).to.eq('getUser2');
+    expect(getAllUsersRes.body.length).to.be.gt(1);
   });
 });

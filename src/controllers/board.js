@@ -57,7 +57,7 @@ router.get('/:_id', async (req, res) => {
 });
 
 // Update Board
-router.patch('/:_id', jwtAuth, async (req, res) => {
+router.patch('/:_id', createValidators, async (req, res) => {
   const { _id } = req.params;
 
   const board = await Board.findOne({ _id });
