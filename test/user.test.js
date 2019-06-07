@@ -5,46 +5,46 @@ const mongoose = require('mongoose');
 
 const { createUser, login, getUserById, getUserProfile, getAllUsers } = require('./utils/util');
 
-describe('Get User', () => {
-  it('should error - user dne', async () => {
-    const getUserRes = await getUserById(mongoose.Types.ObjectId());
+describe('User Controller Tests', () => {
+  it('should not GetUserById: user dne', async () => {
+    const getUserByIdRes = await getUserById(mongoose.Types.ObjectId());
 
-    expect(getUserRes.status).to.eq(404);
+    expect(getUserByIdRes.status).to.eq(404);
   });
 
-  it('should get user by id - no posts/boards props', async () => {
+  it('should GetUserById: no posts/boards props', async () => {
     const createUserRes = await createUser('getUser1', 'getUser1', 'getUser1');
 
-    const getUserRes = await getUserById(createUserRes.body._id);
+    const getUserByIdRes = await getUserById(createUserRes.body._id);
 
-    expect(getUserRes.status).to.eq(200);
-    expect(getUserRes.body.username).to.eq('getUser1');
-    expect(getUserRes.body).to.not.have.property('posts');
-    expect(getUserRes.body).to.not.have.property('boards');
-    expect(getUserRes.body).to.not.have.property('passwordHash');
+    expect(getUserByIdRes.status).to.eq(200);
+    expect(getUserByIdRes.body.username).to.eq('getUser1');
+    expect(getUserByIdRes.body).to.not.have.property('posts');
+    expect(getUserByIdRes.body).to.not.have.property('boards');
+    expect(getUserByIdRes.body).to.not.have.property('passwordHash');
   });
 
-  it('should get user profile - has posts/boards props', async () => {
+  it('should GetUserProfile: has posts/boards props', async () => {
     const loginRes = await login('getUser1', 'getUser1');
     
-    const getUserRes = await getUserProfile(loginRes.body.token);
+    const getUserProfileRes = await getUserProfile(loginRes.body.token);
 
-    expect(getUserRes.status).to.eq(200);
-    expect(getUserRes.body.username).to.eq('getUser1');
-    expect(getUserRes.body).to.have.property('posts');
-    expect(getUserRes.body).to.have.property('boards');
-    expect(getUserRes.body).to.not.have.property('passwordHash');
+    expect(getUserProfileRes.status).to.eq(200);
+    expect(getUserProfileRes.body.username).to.eq('getUser1');
+    expect(getUserProfileRes.body).to.have.property('posts');
+    expect(getUserProfileRes.body).to.have.property('boards');
+    expect(getUserProfileRes.body).to.not.have.property('passwordHash');
   });
 
-  it('should get all users', async () => {
+  it('should GetAllUsers: has list of users', async () => {
     const createUserRes = await createUser('getUser2', 'getUser2', 'getUser2');
     
-    const getUsersRes = await getAllUsers();
+    const getAllUsersRes = await getAllUsers();
 
-    expect(getUsersRes.status).to.eq(200);
-    expect(getUsersRes.body).to.be.an('array');
-    expect(getUsersRes.body.length).to.eq(2);
-    expect(getUsersRes.body[0].username).to.eq('getUser1');
-    expect(getUsersRes.body[1].username).to.eq('getUser2');
+    expect(getAllUsersRes.status).to.eq(200);
+    expect(getAllUsersRes.body).to.be.an('array');
+    expect(getAllUsersRes.body.length).to.eq(2);
+    expect(getAllUsersRes.body[0].username).to.eq('getUser1');
+    expect(getAllUsersRes.body[1].username).to.eq('getUser2');
   });
 });
